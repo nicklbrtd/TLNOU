@@ -1,0 +1,304 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model User {
+  id            String                @id @default(cuid())
+  identifier    String                @unique
+  role          Role                  @default(USER)
+  isActive      Boolean               @default(true)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  credential    Credential?
+  profile       Profile?
+  posts         Post[]
+  postLikes     PostLike[]
+  postComments  PostComment[]
+  ownedChannel  Channel?
+  subscriptions ChannelSubscription[]
+  channelPosts  ChannelPost[]         @relation("ChannelPostAuthor")
+  channelLikes  ChannelPostLike[]
+  chatMembers   ChatMember[]
+  chatMessages  ChatMessage[]
+  sessions      Session[]
+  memoryEntries MemoryBoardEntry[]    @relation("MemoryEntryAuthor")
+  loginAttempts LoginAttempt[]
+
+  @@index([role])
+}
+
+model Credential {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  passwordHash    String
+  mustReset       Boolean  @default(false)
+  passwordUpdated DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Profile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  displayName String
+  username    String?   @unique @db.VarChar(24)
+  age         Int?
+  birthDate   DateTime?
+  avatarUrl   String?
+  bio         String?   @db.Text
+  about       String?   @db.Text
+  interests   String?   @db.Text
+  statusLine  String?
+  signature   String?
+  extra       Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([displayName])
+  @@index([username])
+}
+
+model Post {
+  id        String        @id @default(cuid())
+  authorId  String
+  text      String?       @db.Text
+  isDeleted Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  media     PostMedia[]
+  likes     PostLike[]
+  comments  PostComment[]
+
+  @@index([authorId, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+}
+
+model PostMedia {
+  id        String    @id @default(cuid())
+  postId    String
+  type      MediaType
+  url       String
+  mimeType  String?
+  sizeBytes Int?
+  width     Int?
+  height    Int?
+  durationS Int?
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, sortOrder])
+}
+
+model PostLike {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  text      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt(sort: Desc)])
+  @@index([authorId])
+}
+
+model Channel {
+  id          String                @id @default(cuid())
+  ownerId     String                @unique
+  slug        String                @unique
+  title       String
+  description String?               @db.Text
+  avatarUrl   String?
+  isActive    Boolean               @default(true)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  owner       User                  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  subscribers ChannelSubscription[]
+  posts       ChannelPost[]
+
+  @@index([title])
+}
+
+model ChannelSubscription {
+  id        String   @id @default(cuid())
+  channelId String
+  userId    String
+  createdAt DateTime @default(now())
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, userId])
+  @@index([userId])
+}
+
+model ChannelPost {
+  id        String             @id @default(cuid())
+  channelId String
+  authorId  String
+  text      String?            @db.Text
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  channel   Channel            @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  author    User               @relation("ChannelPostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  media     ChannelPostMedia[]
+  likes     ChannelPostLike[]
+
+  @@index([channelId, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+}
+
+model ChannelPostMedia {
+  id            String      @id @default(cuid())
+  channelPostId String
+  type          MediaType
+  url           String
+  mimeType      String?
+  sizeBytes     Int?
+  width         Int?
+  height        Int?
+  durationS     Int?
+  sortOrder     Int         @default(0)
+  createdAt     DateTime    @default(now())
+  channelPost   ChannelPost @relation(fields: [channelPostId], references: [id], onDelete: Cascade)
+
+  @@index([channelPostId, sortOrder])
+}
+
+model ChannelPostLike {
+  id            String      @id @default(cuid())
+  channelPostId String
+  userId        String
+  createdAt     DateTime    @default(now())
+  channelPost   ChannelPost @relation(fields: [channelPostId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([channelPostId, userId])
+  @@index([userId])
+}
+
+model ChatRoom {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  title     String
+  isActive  Boolean       @default(true)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  members   ChatMember[]
+  messages  ChatMessage[]
+}
+
+model ChatMember {
+  id         String    @id @default(cuid())
+  roomId     String
+  userId     String
+  joinedAt   DateTime  @default(now())
+  lastReadAt DateTime?
+  room       ChatRoom  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  roomId    String
+  authorId  String
+  text      String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt(sort: Desc)])
+  @@index([authorId])
+}
+
+model MemoryBoardEntry {
+  id          String             @id @default(cuid())
+  fullName    String
+  subtitle    String?
+  story       String             @db.Text
+  isPinned    Boolean            @default(false)
+  sortOrder   Int                @default(0)
+  createdById String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  createdBy   User?              @relation("MemoryEntryAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+  media       MemoryBoardMedia[]
+
+  @@index([isPinned, sortOrder])
+  @@index([createdAt(sort: Desc)])
+}
+
+model MemoryBoardMedia {
+  id        String           @id @default(cuid())
+  entryId   String
+  type      MediaType
+  url       String
+  caption   String?
+  sortOrder Int              @default(0)
+  createdAt DateTime         @default(now())
+  entry     MemoryBoardEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([entryId, sortOrder])
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model LoginAttempt {
+  id         String   @id @default(cuid())
+  userId     String?
+  identifier String
+  ipAddress  String?
+  success    Boolean
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([identifier, createdAt(sort: Desc)])
+  @@index([ipAddress, createdAt(sort: Desc)])
+}

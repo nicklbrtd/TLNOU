@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ТЛНОУ (MVP)
 
-## Getting Started
+Закрытая мини-соцсеть для учебной группы на Next.js + TypeScript + Tailwind + Prisma + PostgreSQL.
 
-First, run the development server:
+## Что уже реализовано
+
+- Архитектурный каркас MVP
+- Полная Prisma-схема домена
+- Авторизация по `identifier + password`
+- Сессии в secure httpOnly cookie
+- Базовый rate limiting для login
+- Admin area: создание аккаунтов пользователей
+- Загрузка фото профиля при создании пользователя в админке
+- Рабочее редактирование профиля (без изменения админ-полей)
+- Текстовые пользовательские посты: create/edit/delete
+- Лайки и комментарии к пользовательским постам
+- Раздел `Чаты` (комнаты + отправка сообщений)
+- Защищённые экраны: feed/chats/profile/channel/memory
+- Базовые страницы ошибок и пустых состояний
+
+## Быстрый старт
+
+1. Установить зависимости:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Подготовить переменные:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Подключить PostgreSQL (локально или Supabase) в `DATABASE_URL`.
+Если локальный Postgres уже занят на `5432`, используйте порт `5433` (текущий `.env.example` именно такой).
 
-## Learn More
+4. Накатить схему:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run db:push
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Сгенерировать seed-данные (включая первого админа):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run db:seed
+```
 
-## Deploy on Vercel
+6. Запустить приложение:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev -- --hostname 0.0.0.0 --port 3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Вход по умолчанию (если не переопределяли env)
+
+- ID: `1001`
+- Пароль: `ChangeMe123!`
+
+## Документация
+
+- Архитектура и roadmap: [docs/MVP_ARCHITECTURE.md](./docs/MVP_ARCHITECTURE.md)
+
+## Следующие этапы
+
+- Stage 4: медиа для постов (фото/видео upload + preview + ограничения)
+- Stage 5: channels full flow + subscriptions + channel posts CRUD
+- Stage 6: memory board CRUD + media upload
