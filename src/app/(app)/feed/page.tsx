@@ -221,8 +221,8 @@ export default async function FeedPage({
     (query.error ? FEED_MESSAGES[query.error] : null);
 
   return (
-    <section className="space-y-4">
-      <div className="mx-auto w-full max-w-3xl space-y-4">
+    <section className="mx-auto w-full max-w-3xl space-y-2 sm:space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         <HomeHeader searchQuery={searchQuery} users={searchUsers} channels={searchChannels} />
 
         {bannerMessage ? (

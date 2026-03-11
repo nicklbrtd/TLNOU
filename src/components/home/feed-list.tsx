@@ -9,17 +9,23 @@ interface FeedListProps {
 export function FeedList({ items, currentUserId }: FeedListProps) {
   if (items.length === 0) {
     return (
-      <div className="rounded-3xl border border-dashed border-[var(--line)]/80 bg-[var(--card-muted)]/65 px-5 py-9 text-sm text-[var(--text-muted)]">
+      <div className="px-1 py-8 text-sm text-[var(--text-muted)]">
         В главной пока тихо. Публикации из профилей и каналов появятся здесь автоматически.
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      {items.map((item) => (
-        <FeedPostCard key={`${item.kind}-${item.id}`} item={item} currentUserId={currentUserId} />
-      ))}
+    <div className="-mx-4 sm:mx-0">
+      <div className="divide-y divide-[var(--line)]/60 bg-transparent">
+        {items.map((item) => (
+          <FeedPostCard
+            key={`${item.kind}-${item.id}`}
+            item={item}
+            currentUserId={currentUserId}
+          />
+        ))}
+      </div>
     </div>
   );
 }
