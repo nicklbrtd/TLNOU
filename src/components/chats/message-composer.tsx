@@ -42,25 +42,25 @@ export function MessageComposer({ roomId, mobile = false }: MessageComposerProps
 
   return (
     <div
-      className="sticky bottom-0 border-t border-[var(--line)]/65 bg-[rgba(248,251,248,0.95)] px-3 pt-2.5 shadow-[0_-10px_26px_rgba(25,33,29,0.08)] backdrop-blur-[10px]"
+      className="sticky bottom-0 border-t border-[rgba(161,182,226,0.28)] bg-[rgba(10,15,26,0.86)] px-3 pt-2.5 shadow-[0_-16px_26px_rgba(4,8,15,0.44)] backdrop-blur-[10px]"
       style={mobileSafePadding}
     >
       <form action="/api/chats/messages/create" method="post" className="flex items-center gap-2">
         <input type="hidden" name="roomId" value={roomId} />
 
-        <div className="flex h-11 flex-1 items-center rounded-full border border-[var(--line)]/70 bg-white/92 px-3 shadow-[0_6px_14px_rgba(25,32,29,0.07)]">
+        <div className="flex h-11 flex-1 items-center rounded-full border border-[rgba(159,183,227,0.34)] bg-[rgba(19,28,45,0.84)] px-3 shadow-[0_6px_14px_rgba(5,10,18,0.32)]">
           <input
             name="text"
             required
             maxLength={1000}
             placeholder="Сообщение"
-            className="w-full bg-transparent text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]"
+            className="w-full bg-transparent text-sm text-[#f0f4ff] outline-none placeholder:text-[#9aaacc]"
           />
         </div>
 
         <button
           type="submit"
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#17b2a7_0%,#0f766e_100%)] text-white shadow-[0_10px_18px_rgba(15,118,110,0.37)] transition active:scale-[0.98]"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#d5474e_0%,#a32939_100%)] text-white shadow-[0_10px_18px_rgba(160,37,51,0.45)] transition active:scale-[0.98]"
           aria-label="Отправить сообщение"
         >
           <SendHorizontal className="h-[18px] w-[18px]" />

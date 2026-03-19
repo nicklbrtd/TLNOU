@@ -10,7 +10,7 @@ interface MobileChatScreenProps {
 
 export function MobileChatScreen({ room, currentUserId }: MobileChatScreenProps) {
   return (
-    <section className="fixed inset-0 z-[70] flex flex-col bg-[linear-gradient(180deg,#f7faf7_0%,#eef4f0_100%)] md:hidden">
+    <section className="fixed inset-0 z-[70] flex flex-col bg-[linear-gradient(180deg,#090c13_0%,#0f1526_100%)] md:hidden">
       <ChatHeader title={room.title} isPinned={room.isPinned} mobile />
       <MessageList messages={room.messages} currentUserId={currentUserId} mobile />
       <MessageComposer roomId={room.roomId} mobile />

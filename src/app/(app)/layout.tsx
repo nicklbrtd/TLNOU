@@ -37,8 +37,8 @@ export default async function AppLayout({
       style={{ paddingBottom: "calc(4.25rem + env(safe-area-inset-bottom))" }}
     >
       <div className="grid gap-4 lg:grid-cols-[250px_1fr]">
-        <aside className="hidden rounded-3xl border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_10px_30px_rgba(28,36,32,0.06)] lg:block">
-          <div className="rounded-2xl bg-[var(--card-muted)] p-3">
+        <aside className="cinematic-surface hidden rounded-3xl p-4 cinematic-fade-up lg:block">
+          <div className="rounded-2xl bg-[var(--card-muted)]/95 p-3">
             <div className="flex items-center gap-3">
               <Avatar name={displayName} avatarUrl={user.profile?.avatarUrl} size="md" />
               <div>
@@ -62,14 +62,14 @@ export default async function AppLayout({
           </div>
         </aside>
 
-        <main className="rounded-3xl border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_10px_30px_rgba(28,36,32,0.06)] sm:p-6">
+        <main className="cinematic-surface cinematic-fade-up rounded-3xl p-4 sm:p-6">
           {children}
         </main>
       </div>
 
       <BottomNav links={MOBILE_BOTTOM_LINKS} />
 
-      <div className="pointer-events-none fixed right-4 top-4 hidden rounded-full border border-[var(--line)] bg-white/90 p-2 shadow-sm lg:block">
+      <div className="pointer-events-none fixed right-4 top-4 hidden rounded-full border border-[rgba(208,71,74,0.3)] bg-[rgba(249,236,238,0.75)] p-2 shadow-[0_8px_22px_rgba(164,27,43,0.24)] lg:block">
         <AppIcon name="spark" className="h-4 w-4 text-[var(--accent)]" />
       </div>
     </div>

@@ -40,7 +40,7 @@ function buildTimeline(messages: ChatMessageData[]): RenderedItem[] {
 
 export function MessageList({ messages, currentUserId, mobile = false }: MessageListProps) {
   const backgroundClass = mobile
-    ? "bg-[radial-gradient(circle_at_14%_8%,rgba(15,118,110,0.12),transparent_34%),radial-gradient(circle_at_88%_92%,rgba(148,163,184,0.16),transparent_35%),linear-gradient(180deg,#f4f8f5_0%,#eef4f0_100%)]"
+    ? "bg-[radial-gradient(circle_at_14%_8%,rgba(195,55,63,0.2),transparent_34%),radial-gradient(circle_at_88%_92%,rgba(84,124,194,0.2),transparent_35%),linear-gradient(180deg,#0c1222_0%,#111a2f_100%)]"
     : "bg-[radial-gradient(circle_at_8%_10%,rgba(15,118,110,0.08),transparent_34%),radial-gradient(circle_at_92%_88%,rgba(148,163,184,0.13),transparent_35%),linear-gradient(180deg,#f8fbf8_0%,#f1f6f2_100%)]";
 
   if (messages.length === 0) {
@@ -64,18 +64,28 @@ export function MessageList({ messages, currentUserId, mobile = false }: Message
         mobile ? "px-3 py-4" : "px-5 py-5"
       }`}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/30 to-transparent" />
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 h-24 ${
+          mobile ? "bg-gradient-to-b from-black/20 to-transparent" : "bg-gradient-to-b from-white/30 to-transparent"
+        }`}
+      />
 
       <div className={`relative ${mobile ? "space-y-3" : "mx-auto max-w-3xl space-y-3.5"}`}>
         {rendered.map((item) => {
           if (item.type === "separator") {
             return (
-              <div key={item.key} className="flex items-center gap-2 py-1.5">
-                <div className="h-px flex-1 bg-[var(--line)]/65" />
-                <span className="rounded-full border border-[var(--line)]/70 bg-white/88 px-2.5 py-0.5 text-[10px] font-medium text-[var(--text-muted)] shadow-[0_2px_8px_rgba(25,32,29,0.05)]">
+            <div key={item.key} className="flex items-center gap-2 py-1.5">
+                <div className={`h-px flex-1 ${mobile ? "bg-[#4f628f]/50" : "bg-[var(--line)]/65"}`} />
+                <span
+                  className={`rounded-full border px-2.5 py-0.5 text-[10px] font-medium shadow-[0_2px_8px_rgba(25,32,29,0.05)] ${
+                    mobile
+                      ? "border-[#5f77ad]/45 bg-[rgba(20,30,52,0.72)] text-[#adc0e8]"
+                      : "border-[var(--line)]/70 bg-white/88 text-[var(--text-muted)]"
+                  }`}
+                >
                   {item.label}
                 </span>
-                <div className="h-px flex-1 bg-[var(--line)]/65" />
+                <div className={`h-px flex-1 ${mobile ? "bg-[#4f628f]/50" : "bg-[var(--line)]/65"}`} />
               </div>
             );
           }
@@ -97,12 +107,20 @@ export function MessageList({ messages, currentUserId, mobile = false }: Message
                   mobile ? "max-w-[84%]" : "max-w-[76%]"
                 } rounded-2xl px-3.5 py-2.5 shadow-[0_8px_16px_rgba(24,32,28,0.07)] ${
                   own
-                    ? "rounded-br-md bg-[linear-gradient(140deg,#15a39a_0%,#0f766e_92%)] text-white"
-                    : "rounded-bl-md border border-[var(--line)]/75 bg-white/92 text-[var(--text-primary)]"
+                    ? mobile
+                      ? "rounded-br-md bg-[linear-gradient(145deg,#da4c54_0%,#b33242_95%)] text-white shadow-[0_10px_18px_rgba(161,38,52,0.42)]"
+                      : "rounded-br-md bg-[linear-gradient(140deg,#15a39a_0%,#0f766e_92%)] text-white"
+                    : mobile
+                      ? "rounded-bl-md border border-[#7189bf]/40 bg-[rgba(222,232,252,0.92)] text-[#15203a]"
+                      : "rounded-bl-md border border-[var(--line)]/75 bg-white/92 text-[var(--text-primary)]"
                 }`}
               >
                 {!own ? (
-                  <p className="text-[11px] font-semibold text-[var(--text-muted)]">
+                  <p
+                    className={`text-[11px] font-semibold ${
+                      mobile ? "text-[#5d6f95]" : "text-[var(--text-muted)]"
+                    }`}
+                  >
                     {message.authorName}
                   </p>
                 ) : null}

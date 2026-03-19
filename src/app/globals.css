@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg-main: #f3f5f1;
-  --bg-accent: #edf4ef;
-  --card: #ffffff;
-  --card-muted: #f2f5f2;
-  --line: #d6ddd6;
-  --text-primary: #1c2420;
-  --text-muted: #5f6b63;
-  --accent: #0f766e;
-  --accent-soft: #d8efea;
-  --danger: #c63f45;
+  --bg-main: #090c13;
+  --bg-accent: #121726;
+  --card: rgba(246, 249, 255, 0.9);
+  --card-muted: rgba(234, 240, 250, 0.9);
+  --line: rgba(103, 122, 161, 0.24);
+  --text-primary: #161e30;
+  --text-muted: #5f6f90;
+  --accent: #c1373f;
+  --accent-soft: rgba(193, 55, 63, 0.14);
+  --danger: #b52f3d;
 }
 
 * {
@@ -25,11 +25,35 @@ body {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 10% 0%, rgba(15, 118, 110, 0.1), transparent 42%),
-    radial-gradient(circle at 100% 100%, rgba(78, 121, 87, 0.12), transparent 40%),
+    radial-gradient(circle at 8% 0%, rgba(183, 30, 43, 0.24), transparent 42%),
+    radial-gradient(circle at 100% 100%, rgba(34, 72, 132, 0.24), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(33, 44, 77, 0.5), transparent 55%),
     var(--bg-main);
   color: var(--text-primary);
   font-family: var(--font-manrope), "Segoe UI", sans-serif;
+  line-height: 1.45;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 0.7px, transparent 0.7px);
+  background-size: 4px 4px;
+  opacity: 0.18;
+  mask-image: radial-gradient(circle at 50% 50%, black 25%, transparent 90%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(5, 8, 14, 0.18), rgba(5, 8, 14, 0.55));
 }
 
 a {
@@ -39,4 +63,43 @@ a {
 
 ::selection {
   background: var(--accent-soft);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), var(--font-space), sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.cinematic-surface {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(160deg, rgba(250, 252, 255, 0.9), rgba(242, 246, 254, 0.93)),
+    var(--card);
+  box-shadow:
+    0 22px 54px rgba(4, 8, 16, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.cinematic-glow {
+  box-shadow:
+    0 0 0 1px rgba(214, 76, 76, 0.22),
+    0 12px 26px rgba(179, 36, 49, 0.28);
+}
+
+.cinematic-fade-up {
+  animation: cinematic-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cinematic-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

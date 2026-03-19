@@ -21,11 +21,11 @@ export default async function LoginPage({
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl items-center px-5 py-8 sm:px-8">
       <div className="grid w-full gap-5 md:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-3xl border border-[var(--line)] bg-[var(--card)] p-6 shadow-sm sm:p-9">
+        <section className="cinematic-surface cinematic-fade-up rounded-3xl p-6 sm:p-9">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
             TLNOU DIGITAL SPACE
           </p>
-          <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-extrabold leading-tight text-[var(--text-primary)] sm:text-5xl">
             ТЛНОУ
           </h1>
           <p className="mt-4 max-w-xl text-sm leading-6 text-[var(--text-muted)] sm:text-base">
@@ -39,7 +39,7 @@ export default async function LoginPage({
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-[var(--line)] bg-[var(--card)] p-6 shadow-sm sm:p-8">
+        <section className="cinematic-surface cinematic-fade-up rounded-3xl p-6 sm:p-8">
           <h2 className="text-xl font-semibold">Вход в аккаунт</h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
             Введите ID и пароль, которые выдал администратор.
@@ -61,7 +61,7 @@ export default async function LoginPage({
                 required
                 minLength={3}
                 maxLength={12}
-                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[var(--accent)]"
+                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-[rgba(250,252,255,0.9)] px-3 py-2.5 text-sm outline-none transition focus:border-[var(--accent)] focus:shadow-[0_0_0_3px_rgba(193,55,63,0.14)]"
                 placeholder="Например: 1001"
               />
             </label>
@@ -74,14 +74,14 @@ export default async function LoginPage({
                 autoComplete="current-password"
                 required
                 minLength={6}
-                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[var(--accent)]"
+                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-[rgba(250,252,255,0.9)] px-3 py-2.5 text-sm outline-none transition focus:border-[var(--accent)] focus:shadow-[0_0_0_3px_rgba(193,55,63,0.14)]"
                 placeholder="Ваш пароль"
               />
             </label>
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-105"
+              className="w-full rounded-xl bg-[linear-gradient(140deg,#cf3b43_0%,#9d2232_100%)] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_12px_22px_rgba(160,32,45,0.34)] transition hover:brightness-105"
             >
               Войти
             </button>

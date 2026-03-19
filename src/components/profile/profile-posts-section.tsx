@@ -25,7 +25,7 @@ export function ProfilePostsSection({ posts }: ProfilePostsSectionProps) {
         </h2>
         <Link
           href="/post/new"
-          className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-[var(--line)]/80 bg-white px-3 text-xs font-semibold text-[var(--text-primary)] shadow-[0_4px_10px_rgba(24,32,28,0.05)] transition hover:bg-[var(--card-muted)]"
+          className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-[rgba(171,186,222,0.35)] bg-[rgba(247,250,255,0.84)] px-3 text-xs font-semibold text-[var(--text-primary)] shadow-[0_10px_18px_rgba(9,16,28,0.14)] transition hover:bg-[var(--card-muted)]"
         >
           <Plus className="h-4 w-4" />
           Создать пост
@@ -41,7 +41,7 @@ export function ProfilePostsSection({ posts }: ProfilePostsSectionProps) {
           {posts.map((post) => (
             <li
               key={post.id}
-              className="rounded-2xl border border-[var(--line)]/70 bg-white/95 px-4 py-3"
+              className="rounded-2xl border border-[rgba(164,183,222,0.3)] bg-[linear-gradient(160deg,rgba(249,252,255,0.92),rgba(239,245,255,0.94))] px-4 py-3 shadow-[0_12px_20px_rgba(8,15,28,0.12)]"
             >
               <p className="whitespace-pre-wrap text-sm leading-6 text-[var(--text-primary)]">
                 {post.text || "Без текста"}
@@ -55,7 +55,7 @@ export function ProfilePostsSection({ posts }: ProfilePostsSectionProps) {
               <div className="mt-2 flex flex-wrap gap-2">
                 <Link
                   href={`/post/${post.id}/edit`}
-                  className="inline-flex h-8 items-center rounded-lg border border-[var(--line)]/80 px-3 text-xs font-medium text-[var(--text-muted)] transition hover:bg-[var(--card-muted)]"
+                  className="inline-flex h-8 items-center rounded-lg border border-[rgba(164,183,222,0.5)] px-3 text-xs font-medium text-[var(--text-muted)] transition hover:bg-[var(--card-muted)]"
                 >
                   Редактировать
                 </Link>
